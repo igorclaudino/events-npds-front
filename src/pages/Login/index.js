@@ -1,4 +1,5 @@
 import {useState} from 'react'
+import {useHistory} from 'react-router-dom'
 
 import './style.css'
 import api from '../../service/api'
@@ -8,6 +9,8 @@ const Login = () =>{
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const history = useHistory();
+
   const handleSubmit = async (e) =>{
     e.preventDefault();
     console.log({username, password})
@@ -15,6 +18,7 @@ const Login = () =>{
     const {data} = await api.post("/authenticate", {username, password});
     const {jwt} = data;
     localStorage.setItem("@events-npds/token", jwt);
+    history.push("/home")
     } catch(e){
       console.log({username, password})
       setPassword("")
